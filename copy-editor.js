@@ -8,6 +8,7 @@
 
   // ── State ──────────────────────────────────────────────
   const changes = [];
+  const originalTextMap = new WeakMap(); // tracks true original text per element
   let editMode = true;
   let hoveredEl = null;
   let activePopover = null;
@@ -543,11 +544,34 @@
     }
   }
 
+  // Replace only direct text nodes in an element, preserving child elements
+  function setDirectText(el, newText) {
+    const textNodes = Array.from(el.childNodes).filter(
+      (n) => n.nodeType === Node.TEXT_NODE
+    );
+    if (textNodes.length === 0) {
+      // No text nodes — fall back to textContent
+      el.textContent = newText;
+      return;
+    }
+    // Put all new text in the first text node, clear the rest
+    textNodes[0].textContent = newText;
+    for (let i = 1; i < textNodes.length; i++) {
+      textNodes[i].textContent = "";
+    }
+  }
+
   function openPopover(el) {
     closePopover();
     activeEditEl = el;
     el.classList.add("__ce-highlight");
-    const originalText = el.textContent.trim();
+    const currentText = el.textContent.trim();
+    // Use the true original if this element was edited before
+    if (!originalTextMap.has(el)) {
+      originalTextMap.set(el, currentText);
+    }
+    const originalText = originalTextMap.get(el);
+    const displayText = currentText; // what's currently on the DOM (may differ from original if re-editing)
     const pop = document.createElement("div");
     pop.className = "__ce-popover";
 
@@ -579,7 +603,7 @@
     const textareaLabel = pop.querySelector(".__ce-textarea-label");
     const promptHint = pop.querySelector(".__ce-popover-prompt-hint");
     const undoBtn = pop.querySelector(".__ce-btn-undo");
-    textarea.value = originalText;
+    textarea.value = displayText;
 
     // ── Tab switching ──
     const tabs = pop.querySelectorAll(".__ce-popover-tab");
@@ -596,7 +620,7 @@
           textarea.value = "";
           textarea.placeholder = 'e.g. "Make this more conversational" or "Shorten to under 10 words"';
           // Revert DOM to original while in prompt mode
-          el.textContent = originalText;
+          setDirectText(el, originalText);
         } else {
           textareaLabel.textContent = "New Copy";
           promptHint.style.display = "none";
@@ -659,7 +683,7 @@
       if (mode !== "edit") return;
       const val = textarea.value.trim();
       if (val) {
-        el.textContent = val;
+        setDirectText(el, val);
       }
       // Enable undo when text differs from original
       undoBtn.disabled = (textarea.value.trim() === originalText);
@@ -675,7 +699,7 @@
       if (!showingOriginal) {
         // Undo: save current text, show original
         savedEditText = textarea.value;
-        el.textContent = originalText;
+        setDirectText(el, originalText);
         textarea.value = originalText;
         undoBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.13-9.36L23 10"/></svg>';
         undoBtn.title = "Redo — show your edit";
@@ -683,7 +707,7 @@
       } else {
         // Redo: restore the edited text
         textarea.value = savedEditText;
-        el.textContent = savedEditText.trim() || originalText;
+        setDirectText(el, savedEditText.trim() || originalText);
         undoBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>';
         undoBtn.title = "Undo — show original";
         showingOriginal = false;
@@ -694,13 +718,16 @@
     pop.querySelector(".__ce-btn-cancel").onclick = (e) => {
       e.stopPropagation();
       // Revert the live preview back to original
-      el.textContent = originalText;
+      setDirectText(el, originalText);
       closePopover();
     };
 
     pop.querySelector(".__ce-btn-save").onclick = (e) => {
       e.stopPropagation();
       const textValue = textarea.value.trim();
+
+      // Check if this element already has a recorded change
+      const existingIdx = changes.findIndex((c) => c._el === el);
 
       if (mode === "prompt") {
         // Prompt mode: record the prompt, don't change DOM
@@ -709,36 +736,48 @@
           return;
         }
         el.classList.add("__ce-edited");
-        changes.push({
-          index: changes.length + 1,
+        const entry = {
+          index: existingIdx >= 0 ? changes[existingIdx].index : changes.length + 1,
+          _el: el,
           selector: getCSSSelector(el),
           original: originalText,
           prompt: textValue,
           tagName: el.tagName.toLowerCase(),
           context: getElementContext(el),
           timestamp: new Date().toISOString(),
-        });
+        };
+        if (existingIdx >= 0) {
+          changes[existingIdx] = entry;
+        } else {
+          changes.push(entry);
+        }
         renderPanel();
-        showToast(`Prompt #${changes.length} saved`);
+        showToast(existingIdx >= 0 ? `Prompt updated` : `Prompt #${changes.length} saved`);
       } else {
         // Edit mode: apply the text change
         if (textValue && textValue !== originalText) {
-          el.textContent = textValue;
+          setDirectText(el, textValue);
           el.classList.add("__ce-edited");
-          changes.push({
-            index: changes.length + 1,
+          const entry = {
+            index: existingIdx >= 0 ? changes[existingIdx].index : changes.length + 1,
+            _el: el,
             selector: getCSSSelector(el),
             original: originalText,
             updated: textValue,
             tagName: el.tagName.toLowerCase(),
             context: getElementContext(el),
             timestamp: new Date().toISOString(),
-          });
+          };
+          if (existingIdx >= 0) {
+            changes[existingIdx] = entry;
+          } else {
+            changes.push(entry);
+          }
           renderPanel();
-          showToast(`Change #${changes.length} saved`);
+          showToast(existingIdx >= 0 ? `Change updated` : `Change #${changes.length} saved`);
         } else {
           // No change or empty — revert
-          el.textContent = originalText;
+          setDirectText(el, originalText);
         }
       }
       closePopover();
@@ -750,7 +789,7 @@
         pop.querySelector(".__ce-btn-save").click();
       }
       if (e.key === "Escape") {
-        el.textContent = originalText;
+        setDirectText(el, originalText);
         closePopover();
       }
     });
@@ -787,9 +826,16 @@
     openPopover(el);
   }
 
+  function onKeyDown(e) {
+    if (e.key === "Escape" && !activePopover) {
+      window.__copyEditorDeactivate?.();
+    }
+  }
+
   document.addEventListener("mouseover", onMouseOver, true);
   document.addEventListener("mouseout", onMouseOut, true);
   document.addEventListener("click", onClick, true);
+  document.addEventListener("keydown", onKeyDown, true);
 
   // ── Panel ──────────────────────────────────────────────
   const panel = document.createElement("div");
@@ -966,6 +1012,7 @@
     document.removeEventListener("mouseover", onMouseOver, true);
     document.removeEventListener("mouseout", onMouseOut, true);
     document.removeEventListener("click", onClick, true);
+    document.removeEventListener("keydown", onKeyDown, true);
     closePopover();
     panel.remove();
     STYLES.remove();

@@ -1,4 +1,4 @@
-<h1 align="center">TextFix</h1>
+<h1 align="center">EditCopy</h1>
 
 <p align="center">
   <strong>Edit copy visually. Export for your coding agent.</strong>
@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Works with Claude Code &middot; Cursor &middot; Windsurf &middot; Copilot &middot; Aider &middot; Cline
+  Works with Claude Code &middot; Cursor &middot; Codex &middot; Copilot &middot; OpenCode &middot; Cline
 </p>
 
 <br>
@@ -36,7 +36,7 @@ The painful part isn't knowing *what* to change — it's communicating *where* t
 
 > "Update the hero subtitle — no, not that one, the one below the pricing cards — to something more conversational"
 
-**TextFix eliminates this.** Click the text, rewrite it, and get precise find-and-replace instructions the agent can act on immediately.
+**EditCopy eliminates this.** Click the text, rewrite it, and get precise find-and-replace instructions the agent can act on immediately.
 
 ## How it works
 
@@ -46,7 +46,7 @@ The painful part isn't knowing *what* to change — it's communicating *where* t
 
 ## Output format
 
-When you copy your changes, TextFix generates agent-optimized markdown:
+When you copy your changes, EditCopy generates agent-optimized markdown:
 
 ```markdown
 ### 1. `<p>` — section.hero > div > p
@@ -69,7 +69,7 @@ The agent gets the exact string to search for, what to replace it with, and enou
 
 **Bookmarklet (recommended):**
 
-1. Visit the [TextFix page](https://coreyrab.github.io/textfix) (or open `index.html` locally)
+1. Visit the [EditCopy page](https://coreyrab.github.io/editcopy) (or open `index.html` locally)
 2. Drag the "Drag to bookmarks bar" button to your bookmarks bar
 3. Click it on any page to activate
 
@@ -77,7 +77,7 @@ The agent gets the exact string to search for, what to replace it with, and enou
 
 ```js
 const s = document.createElement('script');
-s.src = 'https://raw.githubusercontent.com/coreyrab/textfix/main/copy-editor.js';
+s.src = 'https://raw.githubusercontent.com/coreyrab/editcopy/main/copy-editor.js';
 document.body.appendChild(s);
 ```
 
@@ -88,14 +88,15 @@ document.body.appendChild(s);
 - **Change tracking** — All edits logged in a floating panel with visual indicators
 - **One-click export** — Copy all changes as structured markdown
 - **Location context** — Each change includes nearest heading, parent element, and surrounding text
-- **Toggle on/off** — Click the bookmarklet again to deactivate and restore the page
+- **Prompt mode** — Describe how the agent should rewrite text instead of editing directly
+- **Toggle on/off** — Click the bookmarklet again or press Escape to deactivate
 - **Zero dependencies** — Single vanilla JS file, works on any site
 
 ## Local development
 
 ```bash
-git clone https://github.com/coreyrab/textfix.git
-cd textfix
+git clone https://github.com/coreyrab/editcopy.git
+cd editcopy
 python3 -m http.server 8787
 # Open http://localhost:8787
 ```
