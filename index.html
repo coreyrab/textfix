@@ -41,27 +41,27 @@
     <!-- ── Hero ── -->
     <section class="py-20 text-center">
       <h1 class="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl leading-tight">Edit copy visually.<br><span class="text-neutral-400">Export for your coding agent.</span></h1>
-      <p class="mx-auto mt-4 max-w-md text-sm text-neutral-500 leading-relaxed">Click any text on a live page, fix it in place, and get a structured changlog you can paste straight into Claude Code, Cursor, or any AI coding tool.</p>
+      <p class="mx-auto mt-4 max-w-md text-sm text-neutral-500 leading-relaxed">Click any text on a live page, rewrite it in place, and get a structured changelog you can paste straight into Claude Code, Cursor, or any AI coding tool.</p>
     </section>
 
     <!-- ── How it works ── -->
     <section class="pb-16">
-      <h2 class="mb-8 text-center text-[11px] font-semibold uppercase tracking-widest text-neutral-400">How it wroks</h2>
+      <h2 class="mb-8 text-center text-[11px] font-semibold uppercase tracking-widest text-neutral-400">How it works</h2>
       <div class="grid gap-4 sm:grid-cols-3">
         <div class="rounded-xl border border-neutral-200 p-5">
           <div class="mb-3 flex h-7 w-7 items-center justify-center rounded-full bg-neutral-100 text-xs font-bold text-neutral-500">1</div>
-          <h3 class="mb-1 text-sm font-semibold text-neutral-900">Activte the editor</h3>
-          <p class="text-xs text-neutral-500 leading-relaxed">Click the bookmarklet or use the test button to enble copy editing mode on any page.</p>
+          <h3 class="mb-1 text-sm font-semibold text-neutral-900">Activate the editor</h3>
+          <p class="text-xs text-neutral-500 leading-relaxed">Click the bookmarklet or use the test button to enable copy editing mode on any page.</p>
         </div>
         <div class="rounded-xl border border-neutral-200 p-5">
           <div class="mb-3 flex h-7 w-7 items-center justify-center rounded-full bg-neutral-100 text-xs font-bold text-neutral-500">2</div>
           <h3 class="mb-1 text-sm font-semibold text-neutral-900">Click & edit text</h3>
-          <p class="text-xs text-neutral-500 leading-relaxed">Hover over any text elemnt to highlight it, then click to opn the inline editor.</p>
+          <p class="text-xs text-neutral-500 leading-relaxed">Hover over any text element to highlight it, then click to open the inline editor.</p>
         </div>
         <div class="rounded-xl border border-neutral-200 p-5">
           <div class="mb-3 flex h-7 w-7 items-center justify-center rounded-full bg-neutral-100 text-xs font-bold text-neutral-500">3</div>
-          <h3 class="mb-1 text-sm font-semibold text-neutral-900">Reveiw & export</h3>
-          <p class="text-xs text-neutral-500 leading-relaxed">All your edits are tracked in the panle. Copy the changs as markdown for your codeing agent.</p>
+          <h3 class="mb-1 text-sm font-semibold text-neutral-900">Review & export</h3>
+          <p class="text-xs text-neutral-500 leading-relaxed">All your edits are tracked in the panel. Copy the changes as markdown for your coding agent.</p>
         </div>
       </div>
     </section>
@@ -81,19 +81,21 @@
           <p class="text-neutral-500 mt-3">**Page:** Acme Dashboard</p>
           <p class="text-neutral-500">**Total edits:** 2</p>
           <p class="text-neutral-600 mt-3">## Find and Replace</p>
-          <p class="text-neutral-500 mt-3">### 1. &lt;button&gt;</p>
+          <p class="text-neutral-500 mt-3">### 1. &lt;h2&gt; &mdash; section.hero &gt; h2</p>
+          <p class="text-neutral-500 mt-1 text-[10px]">Under heading: "Pricing"</p>
           <p class="mt-2 text-neutral-500">**Search for:**</p>
-          <p class="text-red-400/80 bg-red-400/5 rounded px-2 py-1 inline-block mt-1">Get Strated</p>
+          <p class="text-red-400/80 bg-red-400/5 rounded px-2 py-1 inline-block mt-1">Start your free trial today</p>
           <p class="mt-2 text-neutral-500">**Replace with:**</p>
-          <p class="text-emerald-400/80 bg-emerald-400/5 rounded px-2 py-1 inline-block mt-1">Get Started</p>
-          <p class="text-neutral-600 mt-4">### 2. &lt;span&gt;</p>
+          <p class="text-emerald-400/80 bg-emerald-400/5 rounded px-2 py-1 inline-block mt-1">Try it free for 14 days &mdash; no credit card needed</p>
+          <p class="text-neutral-600 mt-4">### 2. &lt;button&gt; &mdash; div.cta &gt; button</p>
+          <p class="text-neutral-500 mt-1 text-[10px]">Under heading: "Get Started"</p>
           <p class="mt-2 text-neutral-500">**Search for:**</p>
-          <p class="text-red-400/80 bg-red-400/5 rounded px-2 py-1 inline-block mt-1">/ moth</p>
+          <p class="text-red-400/80 bg-red-400/5 rounded px-2 py-1 inline-block mt-1">Learn more about our enterprise solutions</p>
           <p class="mt-2 text-neutral-500">**Replace with:**</p>
-          <p class="text-emerald-400/80 bg-emerald-400/5 rounded px-2 py-1 inline-block mt-1">/ month</p>
+          <p class="text-emerald-400/80 bg-emerald-400/5 rounded px-2 py-1 inline-block mt-1">Book a demo with our team</p>
           <p class="text-neutral-600 mt-4">## Summary (compact)</p>
-          <p class="text-neutral-500 mt-2"><span class="text-red-400/80">"Get Strated"</span> <span class="text-neutral-600">&rarr;</span> <span class="text-emerald-400/80">"Get Started"</span></p>
-          <p class="text-neutral-500"><span class="text-red-400/80">"/ moth"</span> <span class="text-neutral-600">&rarr;</span> <span class="text-emerald-400/80">"/ month"</span></p>
+          <p class="text-neutral-500 mt-2"><span class="text-red-400/80">"Start your free trial today"</span> <span class="text-neutral-600">&rarr;</span> <span class="text-emerald-400/80">"Try it free for 14 days..."</span></p>
+          <p class="text-neutral-500"><span class="text-red-400/80">"Learn more about our..."</span> <span class="text-neutral-600">&rarr;</span> <span class="text-emerald-400/80">"Book a demo with our team"</span></p>
         </div>
       </div>
     </section>
@@ -116,7 +118,7 @@
   </main>
 
   <footer class="border-t border-neutral-100 py-6 text-center text-[11px] text-neutral-400">
-    <p>&copy; 2024 Acme Inc. All rights reseved. Privacy Poilcy | Trems of Service</p>
+    <p>&copy; 2024 TextFix. Open source on GitHub.</p>
   </footer>
 
   <!-- Load bookmarklet source and wire up -->

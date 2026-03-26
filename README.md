@@ -14,38 +14,34 @@
 
 <br>
 
-<p align="center">
-
 ```diff
   # Copy Edit Requests — 2 changes
 
-- Get Strated
-+ Get Started
+- Start your free trial today
++ Try it free for 14 days — no credit card needed
 
-- / moth
-+ / month
+- Learn more about our enterprise solutions
++ Book a demo with our team
 
-  Location: Under heading "Pricing Plans" → div.pricing-card
+  Location: Under heading "Pricing" → div.hero-cta
 ```
-
-</p>
 
 ---
 
 ## The problem
 
-When vibe-coding, copy editing is painful. You find a typo on a live page and then have to describe it to your agent:
+When vibe-coding, the AI gets the UI built fast — but the copy always needs a human touch. Headlines are generic, CTAs are bland, descriptions miss the tone you want.
 
-> "Change the button that says 'Get Strated' to 'Get Started' — it's in the pricing section, the first card"
+The painful part isn't knowing *what* to change — it's communicating *where* to change it:
 
-Which button? Which component? The agent guesses, greps, gets it wrong, and you go back and forth.
+> "Update the hero subtitle — no, not that one, the one below the pricing cards — to something more conversational"
 
-**TextFix eliminates this.** Click the text, fix it, and get precise find-and-replace instructions the agent can act on immediately.
+**TextFix eliminates this.** Click the text, rewrite it, and get precise find-and-replace instructions the agent can act on immediately.
 
 ## How it works
 
 1. **Activate** — Click the bookmarklet on any page
-2. **Click & edit** — Hover over text elements, click to edit inline with a live preview
+2. **Click & edit** — Hover over text elements, click to rewrite inline with a live preview
 3. **Export** — Copy structured markdown with the original text, replacement, and location context
 
 ## Output format
@@ -53,18 +49,18 @@ Which button? Which component? The agent guesses, greps, gets it wrong, and you 
 When you copy your changes, TextFix generates agent-optimized markdown:
 
 ```markdown
-### 1. `<button>` — section > div > div:nth-of-type(1) > button
+### 1. `<p>` — section.hero > div > p
 
 **Location context:**
-- Under heading: "Pricing Plans"
-- Parent: `div.pricing-card`
-- Text before: "$9 / month"
+- Under heading: "Pricing"
+- Parent: `div.hero-cta`
+- Text before: "$29 / month"
 
 **Search for:**
-Get Strated
+Start your free trial today
 
 **Replace with:**
-Get Started
+Try it free for 14 days — no credit card needed
 ```
 
 The agent gets the exact string to search for, what to replace it with, and enough surrounding context to find the right element — even on long pages with repeated patterns.
