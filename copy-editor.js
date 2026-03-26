@@ -530,15 +530,23 @@
   }
 
   // ── Popover ────────────────────────────────────────────
+  let activeEditEl = null;
+
   function closePopover() {
     if (activePopover) {
       activePopover.remove();
       activePopover = null;
     }
+    if (activeEditEl) {
+      activeEditEl.classList.remove("__ce-highlight");
+      activeEditEl = null;
+    }
   }
 
   function openPopover(el) {
     closePopover();
+    activeEditEl = el;
+    el.classList.add("__ce-highlight");
     const originalText = el.textContent.trim();
     const pop = document.createElement("div");
     pop.className = "__ce-popover";
@@ -751,6 +759,7 @@
   // ── Event Handlers ─────────────────────────────────────
   function onMouseOver(e) {
     if (!editMode) return;
+    if (activePopover) return; // Don't highlight other elements while editing
     const el = e.target;
     if (!isTextElement(el)) return;
     if (hoveredEl) hoveredEl.classList.remove("__ce-highlight");
@@ -760,7 +769,10 @@
 
   function onMouseOut(e) {
     if (hoveredEl) {
-      hoveredEl.classList.remove("__ce-highlight");
+      // Don't remove highlight if this element is being actively edited
+      if (hoveredEl !== activeEditEl) {
+        hoveredEl.classList.remove("__ce-highlight");
+      }
       hoveredEl = null;
     }
   }
@@ -772,7 +784,6 @@
     if (!isTextElement(el)) return;
     e.preventDefault();
     e.stopPropagation();
-    el.classList.remove("__ce-highlight");
     openPopover(el);
   }
 
