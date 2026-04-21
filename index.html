@@ -163,7 +163,7 @@
 
   <!-- OpenPanel Analytics -->
   <script>
-    window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}},has:function(t,r){return"q"===r}})};
+    window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}},has:function(t,r){return"q"===r}})}();
     window.op('init', {
       clientId: 'c65c947e-8fc3-4bb2-8a0e-c79fac5497b9',
       trackScreenViews: true,
